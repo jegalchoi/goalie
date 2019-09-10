@@ -10,6 +10,26 @@
   </head>
 
   <body>
+    <nav>
+      <div>
+        <% unless current_user %>
+          <%= link_to 'Sign in', new_session_url %>
+          <%= link_to 'Sign up', new_user_url %>
+        <% else %>
+          <%= link_to current_user.username, user_url(current_user) %>
+          <form action="<%= session_url %>" method="POST">
+            <input type="hidden" name="authenticity_token" value="form_authenticity_token">
+            <input type="hidden" name="_method" value="DELETE">
+            <input type="submit" value="Log out">
+          </form>          
+        <% end %>
+      </div>
+    </nav>
+    <main>
+      <% flash.each do |k,v| %>
+        <%= v %>
+      <% end %>
+    </main>
     <%= yield %>
   </body>
 </html>
