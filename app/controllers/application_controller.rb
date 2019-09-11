@@ -1,5 +1,7 @@
 class ApplicationController < ActionController::Base
-  helper_method :current_user, :logged_in?, :login!, :require_user!
+  protect_from_forgery
+  
+  helper_method :current_user, :logged_in?, :login!, :require_user!, :require_owner!
 
   private
 
@@ -24,5 +26,9 @@ class ApplicationController < ActionController::Base
     def require_user!
       redirect_to new_session_url unless logged_in?
     end
-    
+
+    def require_owner!
+      redirect_to new_session_url unless current_user.id == Goal.find_by(id: params[:id]).user_id
+    end
+
 end

@@ -1,0 +1,21 @@
+<h3>New Goal</h3>
+
+<%= form_for(@goal) do |f| %>
+  <%= f.label :title %>:
+  <%= f.text_field :title %>
+  <br><br>
+  
+  <%= f.label :details %>:
+  <%= f.text_area :details %>
+  <br><br>
+
+  <%= f.label :Private? %>
+  <%= f.check_box :visibility, {}, "true", "false" %>
+  <br><br>
+
+  <%= f.label :Completed? %>
+  <%= f.check_box :status, {}, "true", "false" %>
+  <br><br>
+
+  <%= f.submit "New Goal" %>
+<% end %>

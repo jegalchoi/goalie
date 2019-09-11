@@ -1,0 +1,16 @@
+<h2>Goal:</h2>
+
+<h4>Title: <%= @goal.title %></h4>
+<h4>Details: <%= @goal.details %></h4>
+<h4>Visibility: <%= (@goal.visibility == true) ? "Private" : "Public" %></h4>
+<h4>Finished?: <%= (@goal.status == false) ? "Ongoing" : "Completed" %></h4>
+<h4>Cheers: <%= @goal.cheers %></h4>
+<h4>
+  Completed?
+  <form action="<%= goal_url(@goal) %>" method="POST">
+    <input type="hidden" name="_method" value="PATCH">
+    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+    <input type="hidden" name="goal[status]" value="<%= (@goal.status == false) ? "true" : "false" %>">
+    <input type="submit" value="<%= (@goal.status == false) ? "Complete" : "Oops! Did not complete." %>">
+  </form>
+</h4>

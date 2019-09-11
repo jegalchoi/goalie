@@ -109,3 +109,4 @@ def login_user(username, password)
   fill_in "Password", with: password
   click_on "Submit"
 end
+

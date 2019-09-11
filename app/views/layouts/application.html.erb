@@ -11,24 +11,33 @@
 
   <body>
     <nav>
+      <h1>GOALIE APP</h1>
+      <div>
+        <% flash.each do |k,v| %>
+          <%= v %>
+        <% end %>
+      </div>
       <div>
         <% unless current_user %>
-          <%= link_to 'Sign in', new_session_url %>
           <%= link_to 'Sign up', new_user_url %>
+          <br>
+          <%= link_to 'Log in', new_session_url %>
         <% else %>
           <%= link_to current_user.username, user_url(current_user) %>
+          <br>
           <form action="<%= session_url %>" method="POST">
             <input type="hidden" name="authenticity_token" value="form_authenticity_token">
             <input type="hidden" name="_method" value="DELETE">
             <input type="submit" value="Log out">
-          </form>          
+          </form>
+          <br>
+          Cheers Remaining: <%= "#" %>
         <% end %>
+        <br>
       </div>
     </nav>
     <main>
-      <% flash.each do |k,v| %>
-        <%= v %>
-      <% end %>
+      
     </main>
     <%= yield %>
   </body>

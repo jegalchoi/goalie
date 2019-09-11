@@ -1,1 +1,35 @@
-<h1><%= @user.username %></h1>
+<h3><%= @user.username %>'s Profile</h3>
+<div>
+  <h4><%= @user.username %>'s Goals:</h4>
+  <% if current_user == @user %>
+    <%= link_to 'New Goal', new_goal_url %>
+    <%= link_to 'My Cheers!', '#' %>
+  <% end %>
+  <br>
+  <% @user.goals.each do |goal| %>
+    <%= link_to goal.title, goal_url(goal) %>
+    <br>
+    <em><%= (goal.visibility == true) ? "Private" : "Public" %></em>
+    <br>
+    <em><%= (goal.status == false) ? "Ongoing" : "Complete" %></em>
+    <br>
+    <% if current_user == @user %>
+      <br>
+      <form action="<%= user_update_goal_url(goal) %>" method="POST">
+        <input type="hidden" name="_method" value="PATCH">
+        <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+        <input type="hidden" name="goal[status]" value="<%= (goal.status == false) ? "true" : "false" %>">
+        <input type="submit" value="<%= (goal.status == false) ? "Complete" : "Oops! Did not complete." %>">
+      </form>
+      <br>
+      <form action="<%= goal_url(goal) %>" method="POST">
+        <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+        <input type="hidden" name="_method" value="DELETE">
+        <input type="submit" value="delete <%= goal.title %> goal">
+      </form>
+    <% end %>
+    <br>
+  <% end %>
+</div>
+<br>
+<%= link_to 'All Users', users_url %>
