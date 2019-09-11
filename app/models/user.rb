@@ -15,6 +15,12 @@ class User < ApplicationRecord
   attr_reader :password
 
   has_many :goals
+  has_many :user_comments,
+    class_name: 'UserComment',
+    foreign_key: :user_id,
+    primary_key: :id
+  has_many :comments,
+    through: :user_comments
 
   validates :username, presence: true, uniqueness: true
   validates :email, presence: true, uniqueness: true

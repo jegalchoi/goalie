@@ -7,4 +7,5 @@ Rails.application.routes.draw do
       patch 'user_update'
     end
   end
+  resources :comments, only: [:create]
 end
