@@ -1,11 +1,11 @@
 <h2>Goal:</h2>
 
-<h4>Title: <%= @goal.title %></h4>
-<h4>Details: <%= @goal.details %></h4>
-<h4>Visibility: <%= (@goal.visibility == true) ? "Private" : "Public" %></h4>
-<h4>Finished?: <%= (@goal.status == false) ? "Ongoing" : "Completed" %></h4>
-<h4>Cheers: <%= @goal.cheers %></h4>
-<h4>
+<h5>Title: <%= @goal.title %></h5>
+<h5>Details: <%= @goal.details %></h5>
+<h5>Visibility: <%= (@goal.visibility == true) ? "Private" : "Public" %></h5>
+<h5>Finished?: <%= (@goal.status == false) ? "Ongoing" : "Completed" %></h5>
+<h5>Cheers: <%= @goal.cheers %></h5>
+<h5>
   Completed?
   <form action="<%= goal_url(@goal) %>" method="POST">
     <input type="hidden" name="_method" value="PATCH">
@@ -13,4 +13,22 @@
     <input type="hidden" name="goal[status]" value="<%= (@goal.status == false) ? "true" : "false" %>">
     <input type="submit" value="<%= (@goal.status == false) ? "Complete" : "Oops! Did not complete." %>">
   </form>
-</h4>
+</h5>
+<div>
+  <h5>
+    Comments
+    <br>
+    <% @goal.comments.each do |comment| %>
+      <%= comment.body %>
+      <br>
+    <% end %>
+  <h4>New Comment</h4>
+  </h5>
+  <form action="<%= goal_comments_url(@goal) %>" method="POST">
+        <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+        <label for="comment_body">Comment</label>
+        <textarea name="comment[body]" id="comment_body" ></textarea>
+        <input type="submit" value="Save Comment">
+      </form>
+  
+</div>

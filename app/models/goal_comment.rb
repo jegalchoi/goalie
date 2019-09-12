@@ -11,7 +11,14 @@
 
 class GoalComment < ApplicationRecord
   validates :comment_id, :goal_id, presence: true
-  
+
   belongs_to :comment
   belongs_to :goal
+
+  def self.link_goal_comment!(comment_id, goal_id)
+    goal_comment = GoalComment.new
+    goal_comment.comment_id = comment_id
+    goal_comment.goal_id = goal_id
+    goal_comment.save
+  end
 end
