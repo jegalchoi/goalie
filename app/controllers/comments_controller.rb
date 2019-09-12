@@ -1,17 +1,27 @@
 class CommentsController < ApplicationController
   def create
-    @comment = Comment.new(comment_params)
+    if params[:user_id]
+      @user = User.find_by(id: params[:user_id])
+      @comment = @user.comments.new(comment_params)
 
-    if @comment.save
-      if request.referer.include?("user")
-        @comment.link_user(@comment.id, params[:user_id])
+      if @comment.save
+        flash[:success] = "Comment saved!"
+        redirect_to user_url(@user)
       else
-        @comment.link_goal(@comment.id, params[:goal_id])
+        flash.now[:errors] = @comment.errors.full_messages
+        redirect_to user_url(@user)
       end
-      flash[:success] = "Comment saved!"
-      redirect_back(fallback_location: root_path)
     else
-      flash.now[:errors] = @comment.errors.full_messages
+      @goal = Goal.find_by(id: params[:goal_id])
+      @comment = @goal.comments.new(comment_params)
+
+      if @comment.save
+        flash[:success] = "Comment saved!"
+        redirect_to goal_url(@goal)
+      else
+        flash.now[:errors] = @comment.errors.full_messages
+        redirect_to goal_url(@goal)
+      end
     end
   end
 
