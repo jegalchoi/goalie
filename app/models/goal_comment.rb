@@ -10,8 +10,4 @@
 #
 
 class GoalComment < ApplicationRecord
-  validates :comment_id, :goal_id, presence: true
-
-  belongs_to :comment
-  belongs_to :goal
 end

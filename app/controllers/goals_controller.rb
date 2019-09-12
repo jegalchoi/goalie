@@ -37,27 +37,28 @@ class GoalsController < ApplicationController
   end
 
   def update
-    find_goal
+    if request.referer.include?("user")
+      find_goal
 
-    if @goal.update_attributes(goal_params)
-      redirect_to goal_url(@goal)
+      if @goal.update_attributes(goal_params)
+        redirect_to user_url(@goal.user_id)
+      else
+        flash.now[:errors] = @goal.errors.full_messages
+        redirect_to user_url(@goal.user_id)
+      end
     else
-      flash.now[:errors] = @goal.errors.full_messages
-      redirect_to goal_url(params[:id])
+      find_goal
+
+      if @goal.update_attributes(goal_params)
+        redirect_to goal_url(@goal)
+      else
+        flash.now[:errors] = @goal.errors.full_messages
+        redirect_to goal_url(params[:id])
+      end
     end
+    
   end
-
-  def user_update
-    find_goal
-
-    if @goal.update_attributes(goal_params)
-      redirect_to user_url(@goal.user_id)
-    else
-      flash.now[:errors] = @goal.errors.full_messages
-      redirect_to user_url(@goal.user_id)
-    end
-  end
-
+  
   private
 
     def goal_params

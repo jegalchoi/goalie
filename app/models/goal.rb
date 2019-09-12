@@ -14,14 +14,9 @@
 #
 
 class Goal < ApplicationRecord
+  include Commentable
+  
   belongs_to :user
-  #has_many :goal_comments,
-  #  class_name: 'GoalComment',
-  #  foreign_key: :goal_id,
-  #  primary_key: :id
-  #has_many :comments,
-  #  through: :goal_comments
-  has_many :comments, as: :imageable
 
   validates :title, presence: true
   validates :user_id, presence: true

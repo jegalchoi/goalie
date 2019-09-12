@@ -14,8 +14,9 @@
 class User < ApplicationRecord
   attr_reader :password
 
+  include Commentable
+
   has_many :goals
-  has_many :comments, as: :imageable
 
   validates :username, presence: true, uniqueness: true
   validates :email, presence: true, uniqueness: true
