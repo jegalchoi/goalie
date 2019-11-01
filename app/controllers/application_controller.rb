@@ -1,26 +1,26 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
   
-  helper_method :current_user, :logged_in?, :login!, :require_user!, :require_owner!
+  helper_method :current_user, :logged_in?, :login!, :logout!, :require_user!, :require_owner!
 
   private
 
     def current_user
       @current_user ||= User.find_by(session_token: session[:session_token])
-      return nil unless session[:session_token]
-    end
-
-    def logged_in?
-      !!current_user
     end
 
     def login!(user)
+      @current_user = user
       session[:session_token] = user.reset_session_token!
     end
-
+    
     def logout!
       current_user.reset_session_token!
       session[:session_token] = nil
+    end
+    
+    def logged_in?
+      !!current_user
     end
 
     def require_user!

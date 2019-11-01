@@ -19,11 +19,7 @@
         <% end %>
       </div>
       <div>
-        <% unless current_user %>
-          <%= link_to 'Sign up', new_user_url %>
-          <br>
-          <%= link_to 'Log in', new_session_url %>
-        <% else %>
+        <% if logged_in? %>
           <%= link_to current_user.username, user_url(current_user) %>
           <br>
           <form action="<%= session_url %>" method="POST">
@@ -33,6 +29,10 @@
           </form>
           <br>
           Cheers Remaining: <%= "#" %>
+        <% else %>
+          <%= link_to 'Sign up', new_user_url %>
+          <br>
+          <%= link_to 'Log in', new_session_url %>
         <% end %>
         <br>
       </div>
